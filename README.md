@@ -26,8 +26,7 @@ The project consists of three main parts: the **Frontend** built with Flutter, t
 
 1. Clone the repository:
    ```bash
-   git clone https://theogit.fmi.uni-stuttgart.de/fapra_ss2024/fp_ss24_caowo
-   cd coursework
+   git clone https://github.com/WenhaoCao00/logical-APP.git
    ```
 2. Set up the backend:
    cd serverside
