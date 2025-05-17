@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API Documentation</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #2c3e50;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+
+      .api-list {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      .api-list li {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+      }
+
+      .api-list li:last-child {
+        border-bottom: none;
+      }
+
+      .api-list strong {
+        display: block;
+        font-size: 16px;
+      }
+
+      .api-list code {
+        background-color: #eaeaea;
+        padding: 4px;
+        border-radius: 4px;
+        display: inline-block;
+      }
+
+      .api-list p {
+        margin: 5px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>API Documentation</h1>
+    <div class="container">
+      <h2>User State API</h2>
+      <ul class="api-list">
+        <li>
+          <strong>Signup</strong>
+          <code>POST /signup/</code>
+          <p>Registers a new user.</p>
+        </li>
+        <li>
+          <strong>Login</strong>
+          <code>POST /login/</code>
+          <p>Logs in a user with email and password.</p>
+        </li>
+        <li>
+          <strong>Update User State</strong>
+          <code>POST /updateUserState/</code>
+          <p>Updates the user state in the backend.</p>
+        </li>
+        <li>
+          <strong>Get User State</strong>
+          <code>GET /getUserState/</code>
+          <p>Retrieves the current state of a user.</p>
+        </li>
+      </ul>
+
+      <h2>Task API</h2>
+      <ul class="api-list">
+        <li>
+          <strong>Generate Conditional Task</strong>
+          <code>GET /generateConditionalTask/</code>
+          <p>Generates conditional statement tasks.</p>
+        </li>
+        <li>
+          <strong>Generate De Morgan Task</strong>
+          <code>GET /generateDeMorganTask/</code>
+          <p>Generates De Morgan's Law tasks.</p>
+        </li>
+        <li>
+          <strong>Generate Truth Table Task</strong>
+          <code>GET /generateTruthTableTask/</code>
+          <p>Generates truth table tasks.</p>
+        </li>
+        <li>
+          <strong>Add Task</strong>
+          <code>POST /addTask/</code>
+          <p>Adds a new task to the database.</p>
+        </li>
+        <li>
+          <strong>Delete Task</strong>
+          <code>DELETE /deleteTask/{id}</code>
+          <p>Deletes a task from the database.</p>
+        </li>
+        <li>
+          <strong>Get Task</strong>
+          <code>GET /getTask/{difficulty}</code>
+          <p>Retrieves tasks of a specific difficulty (easy, medium, hard).</p>
+        </li>
+      </ul>
+
+      <h2>Admin Page</h2>
+      <ul class="api-list">
+        <li>
+          <strong>Admin Page</strong>
+          <code>GET /admin/</code>
+          <p>Accesses the admin page where tasks can be managed.</p>
+        </li>
+        <li>
+          <strong>API Documentation</strong>
+          <code>GET /admin/api/</code>
+          <p>Displays this API documentation.</p>
+        </li>
+      </ul>
+    </div>
+  </body>
+</html>

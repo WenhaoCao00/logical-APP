@@ -1,0 +1,4 @@
+#ignore all files in the design folder
+
+design/*
+generated/*.txt

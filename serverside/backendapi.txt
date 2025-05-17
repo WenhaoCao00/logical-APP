@@ -1,0 +1,52 @@
+Content-Type: application/json
+
+http://localhost:7999/login     post
+{
+  "email": "admin1@example.com",
+  "password": "password"
+}
+
+
+http://localhost:7999/signup       post
+{
+  "name": "John Doe",
+  "username": "johndoe",
+  "email": "johndoe@example.com",
+  "password": "password123"
+}
+
+
+http://localhost:7999/updateUserState   post
+{
+  "name": "nicebaby",
+  "username": "admin1",
+  "email": "admin1@example.com",
+  "avatarUrl": "package:quizeit/pic/avatar2.png",
+  "websiteUrls": ["https://website2.net"],
+  "bio": "This is admin bio",
+  "description": "admin des.",
+  "totalQuizNumber": 2,
+  "quizScores": {"quiz1": 10}
+}
+
+
+http://localhost:7999/getUserState      get
+
+username:password 在postman的auth里面加上
+powershell -Command "[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes('johndoe:admin'))"
+
+
+
+temp user
+{
+  "name": "admin1",
+  "username": "admin1",
+  "email": "admin1@example.com",
+  "password": "password"
+}
+
+
+http://localhost:7999/generateConditionalTask      get
+http://localhost:7999/generateDeMorganTask      get
+http://localhost:7999/generateTruthTableTask     get
+http://localhost:7999/generateLocalTask     get

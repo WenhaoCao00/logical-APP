@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz Admin</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+
+      h1 {
+        text-align: center;
+        margin: 20px 0;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        color: #2c3e50;
+        border-bottom: 2px solid #2c3e50;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+      }
+
+      form {
+        display: grid;
+        grid-template-columns: 150px 1fr;
+        grid-gap: 10px;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+        text-align: right;
+        padding-right: 10px;
+      }
+
+      input,
+      select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      button {
+        grid-column: 2 / 3;
+        padding: 10px 20px;
+        background-color: #2c3e50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 10px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #34495e;
+      }
+
+      .task {
+        background-color: #ecf0f1;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-left: 5px solid #2c3e50;
+        border-radius: 4px;
+      }
+
+      .task p {
+        margin: 5px 0;
+      }
+
+      .task button {
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+      }
+
+      .task button:hover {
+        background-color: #c0392b;
+      }
+
+      .tasks-container {
+        margin-bottom: 40px;
+      }
+
+      @media (max-width: 768px) {
+        form {
+          grid-template-columns: 1fr;
+        }
+
+        label {
+          text-align: left;
+          padding-right: 0;
+        }
+
+        button {
+          grid-column: 1;
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        loadQuestions();
+
+        document
+          .getElementById("addTaskForm")
+          .addEventListener("submit", function (event) {
+            event.preventDefault();
+            addTask();
+          });
+      });
+
+      function loadQuestions() {
+        const difficulties = ["easy", "medium", "hard"];
+        difficulties.forEach((difficulty) => {
+          fetch(`/getTask/${difficulty}`)
+            .then((response) => response.json())
+            .then((data) => {
+              const container = document.getElementById(difficulty + "Tasks");
+              container.innerHTML = "";
+              data.forEach((task) => {
+                const taskElement = document.createElement("div");
+                taskElement.className = "task";
+                taskElement.innerHTML = `
+                                <p><strong>Question:</strong> ${
+                                  task.question
+                                }</p>
+                                <p><strong>Options:</strong> ${task.options.join(
+                                  ", "
+                                )}</p>
+                                <p><strong>Correct Answer:</strong> ${
+                                  task.correct_answer
+                                }</p>
+                                <button onclick="deleteTask(${
+                                  task.id
+                                })">Delete</button>
+                            `;
+                container.appendChild(taskElement);
+              });
+            });
+        });
+      }
+
+      function addTask() {
+        const question = document.getElementById("question").value;
+        const options = document
+          .getElementById("options")
+          .value.split(",")
+          .map((option) => option.trim());
+        const correctAnswer = document.getElementById("correctAnswer").value;
+        const difficulty = document.getElementById("difficulty").value;
+
+        const payload = {
+          question: question,
+          options: options,
+          correct_answer: correctAnswer.trim(),
+          difficulty: difficulty,
+        };
+
+        console.log(payload);
+
+        fetch("/addTask/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }).then((response) => {
+          if (response.status === 201) {
+            loadQuestions();
+          } else {
+            alert("Failed to add task");
+          }
+        });
+      }
+
+      function deleteTask(id) {
+        fetch(`/deleteTask/${id}`, {
+          method: "DELETE",
+        }).then((response) => {
+          if (response.status === 200) {
+            loadQuestions();
+          } else {
+            alert("Failed to delete task");
+          }
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Quiz Admin</h1>
+    <div class="container">
+      <h2>Add Task</h2>
+      <form id="addTaskForm">
+        <label for="question">Question:</label>
+        <input type="text" id="question" name="question" required />
+        <label for="options">Options (comma separated):</label>
+        <input type="text" id="options" name="options" required />
+        <label for="correctAnswer">Correct Answer:</label>
+        <input type="text" id="correctAnswer" name="correctAnswer" required />
+        <label for="difficulty">Difficulty:</label>
+        <select id="difficulty" name="difficulty" required>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+        <button type="submit">Add Task</button>
+      </form>
+    </div>
+
+    <div class="container tasks-container">
+      <h2>Easy Tasks</h2>
+      <div id="easyTasks"></div>
+    </div>
+
+    <div class="container tasks-container">
+      <h2>Medium Tasks</h2>
+      <div id="mediumTasks"></div>
+    </div>
+
+    <div class="container tasks-container">
+      <h2>Hard Tasks</h2>
+      <div id="hardTasks"></div>
+    </div>
+  </body>
+</html>
